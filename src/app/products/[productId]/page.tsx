@@ -8,8 +8,14 @@ import { Footer } from '@/components/Footer/Footer';
 import { products, ProductDetails, ProductDetailSection } from '@/data/products'; 
 import RelatedProductsSlider from '@/components/Product/RelatedProductsSlider';
 
+export async function generateStaticParams() {
+  return products.map((product) => ({
+    productId: product.pdt_id,
+  }));
+}
+
 const ProductDetailPage = async ( props : { params: Promise<{ productId: string }> }) => {
-   const params = await props.params;
+  const params = await props.params;
   const productId = params.productId;
 
   // ค้นหาสินค้าจากอาร์เรย์ products โดยตรง

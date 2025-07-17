@@ -10,6 +10,12 @@ import { newsItems, NewsItemDetails, NewsContentBlock } from '@/data/news';
 
 const jfLogo = "/images/LOGO-JF.png"; 
 
+export async function generateStaticParams() {
+  return newsItems.map((news) => ({
+    newsId: news.nit_id,
+  }));
+}
+
 const NewsDetailPage = async ( props : { params: Promise<{ newsId: string }> }) => {
   const params = await props.params;
   const newsId = params.newsId;
