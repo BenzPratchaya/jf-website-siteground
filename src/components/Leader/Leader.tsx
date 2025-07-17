@@ -3,81 +3,43 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { IconDefinition, faTwitter, faFacebookF, faInstagram, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Leader = () => {
-
-  const Img1 = "/images/leads/lead1.jpg"
-  const Img2 = "/images/leads/lead2.jpg"
-  const Img3 = "/images/leads/lead3.jpg"
-  const Img4 = "/images/leads/lead4.jpg"
-
-  interface SocialLink {
-    icon: IconDefinition;
-    url: string;
-  }
-
   interface LeaderData {
     id: number;
     img: string;
     title: string;
     place: string;
-    url: SocialLink[];
     delay: number;
   }
 
   const leaderData: LeaderData[] = [
     {
       id: 1,
-      img: Img1,
+      img: "/images/leads/lead1.jpg",
       title: "Kajohn Uamsiri",
       place: "Managing Director",
-      url: [
-      { icon: faTwitter, url: "https://twitter.com/kajohn" }, 
-      { icon: faFacebookF, url: "https://facebook.com/kajohn" },
-      { icon: faInstagram, url: "https://instagram.com/kajohn" },
-      { icon: faLinkedinIn, url: "https://linkedin.com/in/kajohn" },
-    ],
       delay: 0.2
     },
     {
       id: 2,
-      img: Img2,
+      img: "/images/leads/lead2.jpg",
       title: "Adisorn Taprig",
       place: "General Manager",
-      url: [
-      { icon: faTwitter, url: "https://twitter.com/kajohn" },
-      { icon: faFacebookF, url: "https://facebook.com/kajohn" },
-      { icon: faInstagram, url: "https://instagram.com/kajohn" },
-      { icon: faLinkedinIn, url: "https://linkedin.com/in/kajohn" },
-    ],
       delay: 0.3
     },
     {
       id: 3,
-      img: Img3,
+      img: "/images/leads/lead3.jpg",
       title: "Warong Tocharoenchai",
       place: "Services Manager",
-      url: [
-      { icon: faTwitter, url: "https://twitter.com/kajohn" }, 
-      { icon: faFacebookF, url: "https://facebook.com/kajohn" },
-      { icon: faInstagram, url: "https://instagram.com/kajohn" },
-      { icon: faLinkedinIn, url: "https://linkedin.com/in/kajohn" },
-    ],
       delay: 0.4
     },
     {
       id: 4,
-      img: Img4,
+      img: "/images/leads/lead4.jpg",
       title: "Navarat Bunnag",
       place: "Sales Manager",
-      url: [
-      { icon: faTwitter, url: "https://twitter.com/kajohn" }, 
-      { icon: faFacebookF, url: "https://facebook.com/kajohn" },
-      { icon: faInstagram, url: "https://instagram.com/kajohn" },
-      { icon: faLinkedinIn, url: "https://linkedin.com/in/kajohn" },
-    ],
       delay: 0.5
     },
   ]
@@ -150,27 +112,6 @@ const Leader = () => {
                 >
                   {item.place}
                 </motion.h3>
-                {/* โลโก้ */}
-                <div className="flex space-x-3 mt-2">
-                  {item.url.map((social, index) => (
-                    <motion.a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="text-blue-900 hover:text-blue-400 text-base sm:text-lg md:text-xl"
-                    >
-                      <FontAwesomeIcon
-                        icon={social.icon}
-                        className="bg-white/20 rounded-full p-2 w-7 h-7 flex items-center justify-center"
-                      />
-                    </motion.a>
-                  ))}
-                </div>
               </div>
             </motion.div>
           ))}
