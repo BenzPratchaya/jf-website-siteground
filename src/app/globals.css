@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-kanit);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%); /* เลื่อนไป 50% ของความกว้างรวมของเนื้อหาที่ซ้ำกัน */
+  }
+}
+
+/* เพิ่มคลาส animate-scroll-left ให้กับ Tailwind utilities */
+.animate-scroll-left {
+  animation: scroll-left linear infinite;
+}
