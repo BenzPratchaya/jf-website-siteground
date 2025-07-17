@@ -1,25 +1,15 @@
 // src/app/products/[productId]/page.tsx
-// Server Component
 
 import React from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar/Navbar';
 import { Footer } from '@/components/Footer/Footer';
-// นำเข้าข้อมูลทั้งหมด (ทั้ง Type และ Data)
-import { products, ProductType, ProductDetails, ProductDetailSection } from '@/data/products'; 
-// Client Component
+import { products, ProductDetails, ProductDetailSection } from '@/data/products'; 
 import RelatedProductsSlider from '@/components/Product/RelatedProductsSlider';
 
-// Function สำหรับสร้างพารามิเตอร์สำหรับ Static Site Generation (SSG)
-// อ่านข้อมูลจากไฟล์ local โดยตรง
-export async function generateStaticParams() {
-  return products.map(product => ({
-    productId: product.pdt_id,
-  }));
-}
-
-const ProductDetailPage = async ( { params }: { params: { productId: string } }) => {
+const ProductDetailPage = async ( props : { params: Promise<{ productId: string }> }) => {
+   const params = await props.params;
   const productId = params.productId;
 
   // ค้นหาสินค้าจากอาร์เรย์ products โดยตรง

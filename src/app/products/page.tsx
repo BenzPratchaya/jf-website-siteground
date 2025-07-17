@@ -5,29 +5,22 @@ import Image from 'next/image';
 import Navbar from '@/components/Navbar/Navbar';
 import { Footer } from '@/components/Footer/Footer';
 import Product from '@/components/Product/Product';
-
-// นำเข้าข้อมูลทั้งหมดด้วยชื่อตัวแปรใหม่ที่ถูกต้อง
 import { products, partners, categories, ProductType, PartnerType, CategoryType } from '@/data/products'; 
 
 export default function ProductsPage() {
-  // State สำหรับการกรองสินค้า
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedPartner, setSelectedPartner] = useState<string>('');
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [displayedPartners, setDisplayedPartners] = useState<PartnerType[]>([]); 
 
-  // State สำหรับข้อมูลที่ใช้ (ดึงมาจาก data/products.ts โดยตรง)
   const [allProducts, setAllProducts] = useState<ProductType[]>([]);
   const [allPartners, setAllPartners] = useState<PartnerType[]>([]);
   const [allCategories, setAllCategories] = useState<CategoryType[]>([]);
 
-  // Style สำหรับ Background Image ของส่วนหัว Products Page
   const productsPageBgImageStyle: React.CSSProperties = {
     backgroundImage: "url('/images/hero/hero_bg1.jpg')", 
   };
 
-  // ใช้ useEffect สำหรับกำหนดค่าเริ่มต้นของข้อมูลจากไฟล์ local
-  // และจัดการ Logic การกรอง
   useEffect(() => {
     // 1. กำหนดค่าเริ่มต้นจากข้อมูล local
     setAllProducts(products);

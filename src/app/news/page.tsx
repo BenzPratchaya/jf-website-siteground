@@ -6,42 +6,23 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar/Navbar';
 import { Footer } from '@/components/Footer/Footer';
-import { NewsItemType } from '../../../backend/data/news';
+import { newsItems, NewsItemType } from '@/data/news';
 
 export default function NewsPage() {
-  // ใช้ useState เพื่อเก็บข้อมูลหน้าและจำนวนข่าวต่อหน้า**
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8; 
-  // ใช้ useState เพื่อเก็บข้อมูลข่าวสารทั้งหมด**
+
   const [allNewsItems, setAllNewsItems] = useState<NewsItemType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  // สร้าง ref สำหรับ news grid container**
+
   const newsGridRef = useRef<HTMLDivElement>(null); 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
   // useEffect สำหรับ Fetch Data จาก Backend**
   useEffect(() => {
-    const fetchNews = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch(`${apiBaseUrl}/api/news`); // const res = await fetch(`${apiBaseUrl}/api/news`, { cache: 'no-store' }); 
-        if (!res.ok) {
-          throw new Error(`Failed to fetch news: ${res.statusText}`);
-        }
-        const data: NewsItemType[] = await res.json();
-        setAllNewsItems(data);
-      } catch (err: unknown) {
-        console.error("Error fetching news:", err);
-        setError("Failed to load news. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNews();
-  }, [apiBaseUrl]); // Effect นี้จะทำงานแค่ครั้งเดียวเมื่อ Component Mount
+    setAllNewsItems(newsItems); // ใช้ข้อมูลที่ import มาจาก data/news.tsx
+    setLoading(false);
+  }, []);
 
 
   // คำนวณ Index ของข่าวที่จะแสดงในหน้าปัจจุบัน (ใช้ allNewsItems)

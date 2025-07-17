@@ -6,54 +6,23 @@ import Image from 'next/image';
 import Link from 'next/link'; 
 import Navbar from '@/components/Navbar/Navbar';
 import { Footer } from '@/components/Footer/Footer';
-import { NewsItemType, NewsItemDetails, NewsContentBlock } from '@/data/news'; 
+import { newsItems, NewsItemDetails, NewsContentBlock } from '@/data/news'; 
 
 const jfLogo = "/images/LOGO-JF.png"; 
-
-const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
-
-export async function generateStaticParams() {
-   const res = await fetch(`${apiBaseUrl}/api/news` , {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-  });
-    const newsItems = await res.json();
-  // สร้างพารามิเตอร์สำหรับแต่ละ news item 
-  return newsItems.map((newsItem: { nit_id: string }) => ({
-    newsId: newsItem.nit_id,
-  }));
-}
 
 const NewsDetailPage = async ( props : { params: Promise<{ newsId: string }> }) => {
   const params = await props.params;
   const newsId = params.newsId;
-  let newsItem: NewsItemType | undefined; // สำหรับข้อมูลข่าวสารชิ้นเดียว
-  const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
-  try {
-    // ดึงข้อมูลข่าวสารชิ้นเดียวจาก Backend**
-    const newsRes = await fetch(`${apiBaseUrl}/api/news/${newsId}`);
-    if (!newsRes.ok) {
-      if (newsRes.status === 404) {
-        console.error(`News item not found with ID: ${newsId}`);
-        notFound(); // แสดงหน้า 404 ถ้าข่าวไม่พบ
-      }
-      throw new Error(`Failed to fetch news item ${newsId}: ${newsRes.statusText}`);
-    }
-    newsItem = await newsRes.json();
+  // ค้นหาข่าวจากอาร์เรย์ newsItems โดยตรง
+  const newsItem = newsItems.find(n => n.nit_id === newsId);
 
-  } catch (error: unknown) {
-    console.error('Error fetching news data for NewsDetailPage:', error);
-    notFound(); // ในกรณีที่ Fetch ล้มเหลว (เช่น Backend Server ไม่ทำงาน), ให้แสดงหน้า notFound
+  // ถ้าหาข่าวไม่พบ ให้แสดงหน้า 404
+  if (!newsItem || !newsItem.nit_details) {
+    notFound();
   }
 
-  // ตรวจสอบความถูกต้องของข้อมูลที่ดึงมา
-  if (!newsItem || !newsItem.nit_details) { // **KEY CHANGE: ใช้ nit_details**
-    notFound(); 
-  }
-
-  const newsDetails: NewsItemDetails = newsItem.nit_details; // **KEY CHANGE: ใช้ nit_details**
+  const newsDetails: NewsItemDetails = newsItem.nit_details;
 
   // Helper Function สำหรับ Render แต่ละ Content Block
   const renderContentBlock = (block: NewsContentBlock, blockIndex: number) => {
